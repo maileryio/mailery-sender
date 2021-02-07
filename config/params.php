@@ -9,7 +9,7 @@ return [
                 'label' => static function () {
                     return 'Senders';
                 },
-                'icon' => 'settings',
+                'icon' => 'at',
                 'items' => [
                     'senders' => [
                         'label' => static function () {
