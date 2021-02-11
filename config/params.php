@@ -19,14 +19,6 @@ return [
                             return $urlGenerator->generate('/sender/sender/index');
                         },
                     ],
-                    'domains' => [
-                        'label' => static function () {
-                            return 'Verification Domains';
-                        },
-                        'url' => static function (UrlGeneratorInterface $urlGenerator) {
-                            return $urlGenerator->generate('/sender/domain/index');
-                        },
-                    ],
                 ],
             ],
         ],

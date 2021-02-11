@@ -7,8 +7,7 @@ use Yiisoft\Di\Support\ServiceProvider;
 use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use Mailery\Sender\Provider\Controller\DomainController;
-use Mailery\Sender\Provider\Controller\SenderController;
+use Mailery\Sender\Controller\SenderController;
 
 final class RouteCollectorServiceProvider extends ServiceProvider
 {
@@ -28,10 +27,6 @@ final class RouteCollectorServiceProvider extends ServiceProvider
                     // Senders:
                     Route::methods(['GET', 'POST'], '/senders', [SenderController::class, 'index'])
                         ->name('/sender/sender/index'),
-
-                    // Domains:
-                    Route::methods(['GET', 'POST'], '/domains', [DomainController::class, 'index'])
-                        ->name('/sender/domain/index'),
                 ]
             )
         );
