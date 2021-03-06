@@ -3,6 +3,12 @@
 use Yiisoft\Router\UrlGeneratorInterface;
 
 return [
+    'yiisoft/yii-cycle' => [
+        'annotated-entity-paths' => [
+            '@vendor/maileryio/mailery-sender/src/Entity',
+        ],
+    ],
+
     'maileryio/mailery-menu-sidebar' => [
         'items' => [
             'senders' => [
