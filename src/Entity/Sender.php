@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Mailery\Sender\Entity;
 
-use Mailery\Activity\Log\Entity\LoggableEntityInterface;
-use Mailery\Activity\Log\Entity\LoggableEntityTrait;
+use RuntimeException;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Common\Entity\RoutableEntityInterface;
 
@@ -16,27 +15,25 @@ use Mailery\Common\Entity\RoutableEntityInterface;
  *      mapper = "Mailery\Sender\Mapper\DefaultMapper"
  * )
  */
-class Sender implements RoutableEntityInterface, LoggableEntityInterface
+abstract class Sender implements RoutableEntityInterface
 {
-    use LoggableEntityTrait;
-
     /**
      * @Cycle\Annotated\Annotation\Column(type = "primary")
      * @var int|null
      */
-    private $id;
+    protected $id;
 
     /**
      * @Cycle\Annotated\Annotation\Relation\BelongsTo(target = "Mailery\Brand\Entity\Brand", nullable = false)
      * @var Brand
      */
-    private $brand;
+    protected $brand;
 
     /**
      * @Cycle\Annotated\Annotation\Column(type = "string(32)")
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @return string
@@ -108,7 +105,7 @@ class Sender implements RoutableEntityInterface, LoggableEntityInterface
      */
     public function getEditRouteName(): ?string
     {
-        return '/sender/sender/edit';
+        throw new RuntimeException('Must be implemented in nested.');
     }
 
     /**
@@ -116,7 +113,7 @@ class Sender implements RoutableEntityInterface, LoggableEntityInterface
      */
     public function getEditRouteParams(): array
     {
-        return ['id' => $this->getId()];
+        throw new RuntimeException('Must be implemented in nested.');
     }
 
     /**
@@ -124,7 +121,7 @@ class Sender implements RoutableEntityInterface, LoggableEntityInterface
      */
     public function getViewRouteName(): ?string
     {
-        return '/sender/sender/view';
+        throw new RuntimeException('Must be implemented in nested.');
     }
 
     /**
@@ -132,6 +129,6 @@ class Sender implements RoutableEntityInterface, LoggableEntityInterface
      */
     public function getViewRouteParams(): array
     {
-        return ['id' => $this->getId()];
+        throw new RuntimeException('Must be implemented in nested.');
     }
 }
