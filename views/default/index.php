@@ -14,6 +14,7 @@ use Yiisoft\Html\Html;
 
 /** @var Yiisoft\Yii\WebView $this */
 /** @var Mailery\Widget\Search\Form\SearchForm $searchForm */
+/** @var Mailery\Sender\Model\SenderTypeList $senderTypeList */
 /** @var Yiisoft\Aliases\Aliases $aliases */
 /** @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator */
 /** @var Yiisoft\Data\Reader\DataReaderInterface $dataReader*/
@@ -37,10 +38,21 @@ $this->setTitle('All senders');
                         ->label('Activity log')
                         ->module(Module::NAME); ?>
                 </b-dropdown>
-                <a class="btn btn-sm btn-primary mx-sm-1 mb-2" href="<?= $urlGenerator->generate('/sender/sender/create'); ?>">
-                    <?= Icon::widget()->name('plus')->options(['class' => 'mr-1']); ?>
-                    Add new sender
-                </a>
+                <b-dropdown right size="sm" variant="primary" class="mx-sm-1 mb-2">
+                    <template v-slot:button-content>
+                        <?= Icon::widget()->name('plus')->options(['class' => 'mr-1']); ?>
+                        Add new sender
+                    </template>
+                    <?php foreach ($senderTypeList as $senderType) {
+                        echo Html::tag(
+                            'b-dropdown-item',
+                            $senderType->getCreateLabel(),
+                            [
+                                'href' => $urlGenerator->generate($senderType->getCreateRouteName(), $senderType->getCreateRouteParams()),
+                            ]
+                        );
+                    } ?>
+                </b-dropdown>
             </div>
         </div>
     </div>
@@ -75,7 +87,7 @@ $this->setTitle('All senders');
                     ->update(function (Sender $data, int $index) use ($urlGenerator) {
                         return Html::a(
                             Icon::widget()->name('pencil')->render(),
-                            $urlGenerator->generate('/sender/sender/edit', ['id' => $data->getId()]),
+                            $urlGenerator->generate($data->getEditRouteName(), $data->getEditRouteParams()),
                             [
                                 'class' => 'text-decoration-none mr-3',
                             ]
@@ -94,7 +106,7 @@ $this->setTitle('All senders');
                         return Link::widget()
                             ->label(Icon::widget()->name('delete')->options(['class' => 'mr-1'])->render())
                             ->method('delete')
-                            ->href($urlGenerator->generate('/sender/sender/delete', ['id' => $data->getId()]))
+                            ->href($urlGenerator->generate($data->getDeleteRouteName(), $data->getDeleteRouteParams()))
                             ->confirm('Are you sure?')
                             ->options([
                                 'class' => 'text-decoration-none text-danger',
@@ -121,7 +133,7 @@ if ($paginator->getTotalItems() > 0) {
                 ->prevPageLabel('Previous')
                 ->nextPageLabel('Next')
                 ->urlGenerator(function (int $page) use ($urlGenerator) {
-                    $url = $urlGenerator->generate('/sender/sender/index');
+                    $url = $urlGenerator->generate('/sender/default/index');
                     if ($page > 1) {
                         $url = $url . '?page=' . $page;
                     }

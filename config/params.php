@@ -9,6 +9,10 @@ return [
         ],
     ],
 
+    'maileryio/mailery-sender' => [
+        'types' => [],
+    ],
+
     'maileryio/mailery-menu-sidebar' => [
         'items' => [
             'senders' => [
@@ -22,9 +26,12 @@ return [
                             return 'All Senders';
                         },
                         'url' => static function (UrlGeneratorInterface $urlGenerator) {
-                            return $urlGenerator->generate('/sender/sender/index');
+                            return $urlGenerator->generate('/sender/default/index');
                         },
                     ],
+                ],
+                'activeRouteNames' => [
+                    '/sender/default/index',
                 ],
             ],
         ],

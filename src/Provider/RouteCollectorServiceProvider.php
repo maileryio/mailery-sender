@@ -7,7 +7,7 @@ use Yiisoft\Di\Support\ServiceProvider;
 use Yiisoft\Router\RouteCollectorInterface;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use Mailery\Sender\Controller\SenderController;
+use Mailery\Sender\Controller\DefaultController;
 
 final class RouteCollectorServiceProvider extends ServiceProvider
 {
@@ -24,17 +24,10 @@ final class RouteCollectorServiceProvider extends ServiceProvider
             Group::create(
                 '/brand/{brandId:\d+}',
                 [
-                    // Senders:
-                    Route::get('/senders', [SenderController::class, 'index'])
-                        ->name('/sender/sender/index'),
-                    Route::get('/sender/sender/view/{id:\d+}', [SenderController::class, 'view'])
-                        ->name('/sender/sender/view'),
-                    Route::methods(['GET', 'POST'], '/sender/sender/create', [SenderController::class, 'create'])
-                        ->name('/sender/sender/create'),
-                    Route::methods(['GET', 'POST'], '/sender/sender/edit/{id:\d+}', [SenderController::class, 'edit'])
-                        ->name('/sender/sender/edit'),
-                    Route::delete('/sender/sender/delete/{id:\d+}', [SenderController::class, 'delete'])
-                        ->name('/sender/sender/delete'),
+                    Route::get('/senders', [DefaultController::class, 'index'])
+                        ->name('/sender/default/index'),
+                    Route::delete('/sender/default/delete/{id:\d+}', [DefaultController::class, 'delete'])
+                        ->name('/sender/default/delete'),
                 ]
             )
         );
