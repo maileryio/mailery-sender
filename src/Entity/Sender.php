@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Mailery\Sender\Entity;
 
-use RuntimeException;
+use Mailery\Activity\Log\Entity\LoggableEntityInterface;
+use Mailery\Activity\Log\Entity\LoggableEntityTrait;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Common\Entity\RoutableEntityInterface;
 
@@ -15,25 +16,27 @@ use Mailery\Common\Entity\RoutableEntityInterface;
  *      mapper = "Mailery\Sender\Mapper\DefaultMapper"
  * )
  */
-abstract class Sender implements RoutableEntityInterface
+class Sender implements RoutableEntityInterface, LoggableEntityInterface
 {
+    use LoggableEntityTrait;
+
     /**
      * @Cycle\Annotated\Annotation\Column(type = "primary")
      * @var int|null
      */
-    protected $id;
+    private $id;
 
     /**
      * @Cycle\Annotated\Annotation\Relation\BelongsTo(target = "Mailery\Brand\Entity\Brand", nullable = false)
      * @var Brand
      */
-    protected $brand;
+    private $brand;
 
     /**
      * @Cycle\Annotated\Annotation\Column(type = "string(32)")
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @return string
@@ -105,7 +108,7 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function getEditRouteName(): ?string
     {
-        throw new RuntimeException('Must be implemented in nested.');
+        return '/sender/sender/edit';
     }
 
     /**
@@ -113,7 +116,7 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function getEditRouteParams(): array
     {
-        throw new RuntimeException('Must be implemented in nested.');
+        return ['id' => $this->getId()];
     }
 
     /**
@@ -121,7 +124,7 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function getViewRouteName(): ?string
     {
-        throw new RuntimeException('Must be implemented in nested.');
+        return '/sender/sender/view';
     }
 
     /**
@@ -129,6 +132,6 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function getViewRouteParams(): array
     {
-        throw new RuntimeException('Must be implemented in nested.');
+        return ['id' => $this->getId()];
     }
 }

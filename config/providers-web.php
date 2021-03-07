@@ -2,4 +2,8 @@
 
 declare(strict_types=1);
 
-return [];
+use Mailery\Sender\Provider\RouteCollectorServiceProvider;
+
+return [
+    RouteCollectorServiceProvider::class => RouteCollectorServiceProvider::class,
+];
