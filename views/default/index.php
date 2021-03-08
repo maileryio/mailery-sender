@@ -81,6 +81,12 @@ $this->setTitle('All senders');
                             $urlGenerator->generate($data->getViewRouteName(), $data->getViewRouteParams())
                         );
                     }),
+                (new DataColumn())
+                    ->header('Type')
+                    ->content(function (Sender $data, int $index) use ($senderTypeList) {
+                        $senderType = $senderTypeList->findByEntity($data);
+                        return $senderType ? $senderType->getLabel() : null;
+                    }),
                 (new ActionColumn())
                     ->contentOptions([
                         'style' => 'width: 80px;',
