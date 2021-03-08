@@ -76,7 +76,10 @@ $this->setTitle('All senders');
                 (new DataColumn())
                     ->header('Name')
                     ->content(function (Sender $data, int $index) use ($urlGenerator) {
-                        return $data->getName();
+                        return Html::a(
+                            $data->getName(),
+                            $urlGenerator->generate($data->getViewRouteName(), $data->getViewRouteParams())
+                        );
                     }),
                 (new ActionColumn())
                     ->contentOptions([

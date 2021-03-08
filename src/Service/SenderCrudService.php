@@ -7,7 +7,6 @@ namespace Mailery\Sender\Service;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use Mailery\Sender\Entity\Sender;
-use Mailery\Sender\ValueObject\SenderValueObject;
 
 class SenderCrudService
 {
@@ -22,43 +21,6 @@ class SenderCrudService
     public function __construct(ORMInterface $orm)
     {
         $this->orm = $orm;
-    }
-
-    /**
-     * @param SenderValueObject $valueObject
-     * @return Sender
-     */
-    public function create(SenderValueObject $valueObject): Sender
-    {
-        $sender = (new Sender())
-            ->setName($valueObject->getName())
-            ->setBrand($valueObject->getBrand())
-        ;
-
-        $tr = new Transaction($this->orm);
-        $tr->persist($sender);
-        $tr->run();
-
-        return $sender;
-    }
-
-    /**
-     * @param Sender $sender
-     * @param SenderValueObject $valueObject
-     * @return Sender
-     */
-    public function update(Sender $sender, SenderValueObject $valueObject): Sender
-    {
-        $sender = $sender
-            ->setName($valueObject->getName())
-            ->setBrand($valueObject->getBrand())
-        ;
-
-        $tr = new Transaction($this->orm);
-        $tr->persist($sender);
-        $tr->run();
-
-        return $sender;
     }
 
     /**
