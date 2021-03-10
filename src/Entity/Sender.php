@@ -17,6 +17,10 @@ use Mailery\Common\Entity\RoutableEntityInterface;
  */
 abstract class Sender implements RoutableEntityInterface
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_INACTIVE = 'inactive';
+
     /**
      * @Cycle\Annotated\Annotation\Column(type = "primary")
      * @var int|null
@@ -30,10 +34,16 @@ abstract class Sender implements RoutableEntityInterface
     protected $brand;
 
     /**
-     * @Cycle\Annotated\Annotation\Column(type = "string(32)")
+     * @Cycle\Annotated\Annotation\Column(type = "string(255)")
      * @var string
      */
     protected $name;
+
+    /**
+     * @Cycle\Annotated\Annotation\Column(type = "enum(pending, active, inactive)")
+     * @var string
+     */
+    protected $status;
 
     /**
      * @return string
@@ -98,6 +108,49 @@ abstract class Sender implements RoutableEntityInterface
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return self
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending(): bool
+    {
+        return $this->getStatus() === self::STATUS_PENDING;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->getStatus() === self::STATUS_ACTIVE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInactive(): bool
+    {
+        return $this->getStatus() === self::STATUS_INACTIVE;
     }
 
     /**

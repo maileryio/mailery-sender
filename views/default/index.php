@@ -87,6 +87,19 @@ $this->setTitle('All senders');
                         $senderType = $senderTypeList->findByEntity($data);
                         return $senderType ? $senderType->getLabel() : null;
                     }),
+                (new DataColumn())
+                    ->header('Status')
+                    ->content(function (Sender $data, int $index) {
+                        if ($data->isPending()) {
+                            return '<span class="ml-2 badge badge-warning">pending</span>';
+                        } else if ($data->isActive()) {
+                            return '<span class="ml-2 badge badge-success">active</span>';
+                        } else if ($data->isInactive()) {
+                            return '<span class="ml-2 badge badge-danger">inactive</span>';
+                        } else {
+                            return '<span class="ml-2 badge badge-secondary">unknown</span>';
+                        }
+                    }),
                 (new ActionColumn())
                     ->contentOptions([
                         'style' => 'width: 80px;',
