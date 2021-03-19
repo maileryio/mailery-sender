@@ -8,6 +8,7 @@ use Cycle\ORM\Select\Repository;
 use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Filter\SenderFilter;
+use Mailery\Sender\Model\Status;
 use Yiisoft\Data\Paginator\PaginatorInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
@@ -59,4 +60,18 @@ class SenderRepository extends Repository
         return $repo;
     }
 
+    /**
+     * @param Status $status
+     * @return self
+     */
+    public function withStatus(Status $status): self
+    {
+        $repo = clone $this;
+        $repo->select
+            ->andWhere([
+                'status' => $status->getValue(),
+            ]);
+
+        return $repo;
+    }
 }

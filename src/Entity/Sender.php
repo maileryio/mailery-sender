@@ -7,6 +7,7 @@ namespace Mailery\Sender\Entity;
 use RuntimeException;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Common\Entity\RoutableEntityInterface;
+use Mailery\Sender\Model\Status;
 
 /**
  * @Cycle\Annotated\Annotation\Entity(
@@ -17,10 +18,6 @@ use Mailery\Common\Entity\RoutableEntityInterface;
  */
 abstract class Sender implements RoutableEntityInterface
 {
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_ACTIVE = 'active';
-    public const STATUS_INACTIVE = 'inactive';
-
     /**
      * @Cycle\Annotated\Annotation\Column(type = "primary")
      * @var int|null
@@ -134,7 +131,7 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function isPending(): bool
     {
-        return $this->getStatus() === self::STATUS_PENDING;
+        return $this->getStatus() === Status::PENDING;
     }
 
     /**
@@ -142,7 +139,7 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function isActive(): bool
     {
-        return $this->getStatus() === self::STATUS_ACTIVE;
+        return $this->getStatus() === Status::ACTIVE;
     }
 
     /**
@@ -150,7 +147,7 @@ abstract class Sender implements RoutableEntityInterface
      */
     public function isInactive(): bool
     {
-        return $this->getStatus() === self::STATUS_INACTIVE;
+        return $this->getStatus() === Status::INACTIVE;
     }
 
     /**
