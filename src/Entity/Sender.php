@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Mailery\Sender\Entity;
 
-use RuntimeException;
 use Mailery\Brand\Entity\Brand;
-use Mailery\Common\Entity\RoutableEntityInterface;
 use Mailery\Sender\Model\Status;
 
 /**
@@ -16,7 +14,7 @@ use Mailery\Sender\Model\Status;
  *      mapper = "Mailery\Sender\Mapper\DefaultMapper"
  * )
  */
-abstract class Sender implements RoutableEntityInterface
+abstract class Sender
 {
     /**
      * @Cycle\Annotated\Annotation\Column(type = "primary")
@@ -148,53 +146,5 @@ abstract class Sender implements RoutableEntityInterface
     public function isInactive(): bool
     {
         return $this->getStatus() === Status::INACTIVE;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEditRouteName(): ?string
-    {
-        throw new RuntimeException('Must be implemented in nested.');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEditRouteParams(): array
-    {
-        throw new RuntimeException('Must be implemented in nested.');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getViewRouteName(): ?string
-    {
-        throw new RuntimeException('Must be implemented in nested.');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getViewRouteParams(): array
-    {
-        throw new RuntimeException('Must be implemented in nested.');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDeleteRouteName(): ?string
-    {
-        return '/sender/default/delete';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDeleteRouteParams(): array
-    {
-        return ['id' => $this->getId()];
     }
 }

@@ -15,6 +15,6 @@ final class SenderTypeList extends ArrayCollection
     {
         return $this->filter(function (SenderTypeInterface $senderType) use($sender) {
             return $senderType->isEntitySameType($sender);
-        })->first() ?? null;
+        })->first() ?: null;
     }
 }
