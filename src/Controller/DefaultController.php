@@ -84,13 +84,13 @@ class DefaultController
     {
         $senderId = $request->getAttribute('id');
         if (empty($senderId) || ($sender = $this->senderRepo->findByPK($senderId)) === null) {
-            return $this->responseFactory->createResponse(404);
+            return $this->responseFactory->createResponse(Status::NOT_FOUND);
         }
 
         $senderCrudService->delete($sender);
 
         return $this->responseFactory
-            ->createResponse(302)
-            ->withHeader('Location', $urlGenerator->generate('/sender/default/index'));
+            ->createResponse(Status::SEE_OTHER)
+            ->withHeader(Header::LOCATION, $urlGenerator->generate('/sender/default/index'));
     }
 }
