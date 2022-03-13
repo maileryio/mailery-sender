@@ -1,11 +1,24 @@
 <?php
 
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Definitions\DynamicReference;
+use Mailery\Sender\Entity\Sender;
 
 return [
     'yiisoft/yii-cycle' => [
         'entity-paths' => [
             '@vendor/maileryio/mailery-sender/src/Entity',
+        ],
+    ],
+
+    'maileryio/mailery-activity-log' => [
+        'entity-groups' => [
+            'sender' => [
+                'label' => DynamicReference::to(static fn () => 'Sender'),
+                'entities' => [
+                    Sender::class,
+                ],
+            ],
         ],
     ],
 

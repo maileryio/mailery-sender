@@ -4,41 +4,52 @@ declare(strict_types=1);
 
 namespace Mailery\Sender\Entity;
 
+use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Model\Status;
+use Mailery\Sender\Repository\SenderRepository;
+use Mailery\Activity\Log\Mapper\LoggableMapper;
+use Cycle\ORM\Entity\Behavior;
+use Cycle\Annotated\Annotation\Inheritance\DiscriminatorColumn;
 
-/**
- * @Cycle\Annotated\Annotation\Entity(
- *      table = "senders",
- *      repository = "Mailery\Sender\Repository\SenderRepository",
- *      mapper = "Mailery\Sender\Mapper\DefaultMapper"
- * )
- */
+#[Entity(
+    table: 'senders',
+    repository: SenderRepository::class,
+    mapper: LoggableMapper::class
+)]
+#[Behavior\CreatedAt(
+    field: 'createdAt',
+    column: 'created_at',
+)]
+#[Behavior\UpdatedAt(
+    field: 'updatedAt',
+    column: 'updated_at',
+)]
+#[DiscriminatorColumn(name: 'type')]
 abstract class Sender
 {
-    /**
-     * @Cycle\Annotated\Annotation\Column(type = "primary")
-     * @var int|null
-     */
-    protected $id;
+    #[Column(type: 'primary')]
+    protected int $id;
 
-    /**
-     * @Cycle\Annotated\Annotation\Relation\BelongsTo(target = "Mailery\Brand\Entity\Brand", nullable = false)
-     * @var Brand
-     */
-    protected $brand;
+    #[BelongsTo(target: Brand::class)]
+    protected Brand $brand;
 
-    /**
-     * @Cycle\Annotated\Annotation\Column(type = "string(255)")
-     * @var string
-     */
-    protected $name;
+    #[Column(type: 'string(255)')]
+    protected string $name;
 
-    /**
-     * @Cycle\Annotated\Annotation\Column(type = "enum(pending, active, inactive)")
-     * @var string
-     */
-    protected $status;
+    #[Column(type: 'enum(pending, active, inactive)')]
+    protected string $status;
+
+    #[Column(type: 'string(255)')]
+    protected string $type;
+
+    #[Column(type: 'datetime')]
+    protected \DateTimeImmutable $createdAt;
+
+    #[Column(type: 'datetime', nullable: true)]
+    protected ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * @return string

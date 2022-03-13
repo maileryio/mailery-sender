@@ -13,11 +13,6 @@ class Status
     public const INACTIVE = 'inactive';
 
     /**
-     * @var string
-     */
-    private string $value;
-
-    /**
      * @var TranslatorInterface|null
      */
     private ?TranslatorInterface $translator = null;
@@ -25,8 +20,9 @@ class Status
     /**
      * @param string $value
      */
-    public function __construct(string $value)
-    {
+    public function __construct(
+        private string $value
+    ) {
         if (!isset($this->getLabels()[$value])) {
             throw new InvalidArgumentException();
         }

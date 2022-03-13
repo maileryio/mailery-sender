@@ -11,17 +11,11 @@ use Mailery\Sender\Entity\Sender;
 class SenderCrudService
 {
     /**
-     * @var ORMInterface
-     */
-    private ORMInterface $orm;
-
-    /**
      * @param ORMInterface $orm
      */
-    public function __construct(ORMInterface $orm)
-    {
-        $this->orm = $orm;
-    }
+    public function __construct(
+        private ORMInterface $orm
+    ) {}
 
     /**
      * @param Sender $sender

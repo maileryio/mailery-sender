@@ -15,33 +15,28 @@ use Mailery\Brand\BrandLocatorInterface;
 use Yiisoft\Router\UrlGeneratorInterface as UrlGenerator;
 use Mailery\Sender\Service\SenderCrudService;
 use Mailery\Sender\Model\SenderTypeList;
+use Yiisoft\Router\CurrentRoute;
 
 class DefaultController
 {
     private const PAGINATION_INDEX = 10;
 
     /**
-     * @var SenderRepository
-     */
-    private SenderRepository $senderRepo;
-
-    /**
      * @param ViewRenderer $viewRenderer
      * @param ResponseFactory $responseFactory
-     * @param BrandLocatorInterface $brandLocator
      * @param SenderRepository $senderRepo
+     * @param BrandLocatorInterface $brandLocator
      */
     public function __construct(
-        ViewRenderer $viewRenderer,
-        ResponseFactory $responseFactory,
-        BrandLocatorInterface $brandLocator,
-        SenderRepository $senderRepo
+        private ViewRenderer $viewRenderer,
+        private ResponseFactory $responseFactory,
+        private SenderRepository $senderRepo,
+        BrandLocatorInterface $brandLocator
     ) {
         $this->viewRenderer = $viewRenderer
             ->withController($this)
             ->withViewPath(dirname(dirname(__DIR__)) . '/views');
 
-        $this->responseFactory = $responseFactory;
         $this->senderRepo = $senderRepo->withBrand($brandLocator->getBrand());
     }
 
@@ -75,14 +70,14 @@ class DefaultController
     }
 
     /**
-     * @param Request $request
+     * @param CurrentRoute $currentRoute
      * @param SenderCrudService $senderCrudService
      * @param UrlGenerator $urlGenerator
      * @return Response
      */
-    public function delete(Request $request, SenderCrudService $senderCrudService, UrlGenerator $urlGenerator): Response
+    public function delete(CurrentRoute $currentRoute, SenderCrudService $senderCrudService, UrlGenerator $urlGenerator): Response
     {
-        $senderId = $request->getAttribute('id');
+        $senderId = $currentRoute->getArgument('id');
         if (empty($senderId) || ($sender = $this->senderRepo->findByPK($senderId)) === null) {
             return $this->responseFactory->createResponse(Status::NOT_FOUND);
         }

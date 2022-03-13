@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mailery\Sender\Repository;
 
 use Cycle\ORM\Select\Repository;
-use Yiisoft\Yii\Cycle\Data\Reader\EntityReader;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Filter\SenderFilter;
 use Mailery\Sender\Model\Status;
@@ -13,9 +12,32 @@ use Yiisoft\Data\Paginator\PaginatorInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Reader\DataReaderInterface;
+use Mailery\Cycle\Mapper\Data\Reader\InheritanceDataReader;
+use Cycle\ORM\ORMInterface;
+use Cycle\ORM\Select;
 
 class SenderRepository extends Repository
 {
+    /**
+     * @param ORMInterface $orm
+     * @param Select $select
+     */
+    public function __construct(
+        private ORMInterface $orm,
+        Select $select
+    ) {
+        parent::__construct($select);
+    }
+
+    /**
+     * @param int $id
+     * @return object|null
+     */
+    public function findByPK($id): ?object
+    {
+        return parent::findByPK($id);
+    }
+
     /**
      * @param array $scope
      * @param array $orderBy
@@ -23,7 +45,10 @@ class SenderRepository extends Repository
      */
     public function getDataReader(array $scope = [], array $orderBy = []): DataReaderInterface
     {
-        return new EntityReader($this->select()->where($scope)->orderBy($orderBy));
+        return new InheritanceDataReader(
+            $this->orm,
+            $this->select()->where($scope)->orderBy($orderBy)
+        );
     }
 
     /**
