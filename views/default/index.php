@@ -3,7 +3,6 @@
 use Mailery\Activity\Log\Widget\ActivityLogLink;
 use Mailery\Icon\Icon;
 use Mailery\Sender\Entity\Sender;
-use Mailery\Sender\Module;
 use Mailery\Sender\Model\Status;
 use Mailery\Widget\Dataview\Columns\ActionColumn;
 use Mailery\Widget\Dataview\Columns\DataColumn;
@@ -37,7 +36,7 @@ $this->setTitle('All senders');
                     <?= ActivityLogLink::widget()
                         ->tag('b-dropdown-item')
                         ->label('Activity log')
-                        ->module(Module::NAME); ?>
+                        ->group('sender'); ?>
                 </b-dropdown>
                 <b-dropdown right size="sm" variant="primary" class="mx-sm-1 mb-2">
                     <template v-slot:button-content>
