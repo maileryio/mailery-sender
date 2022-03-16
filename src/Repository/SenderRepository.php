@@ -12,30 +12,30 @@ use Yiisoft\Data\Paginator\PaginatorInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Data\Reader\DataReaderInterface;
+use Mailery\Cycle\Mapper\Data\Reader\Inheritance;
 use Mailery\Cycle\Mapper\Data\Reader\InheritanceDataReader;
-use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Select;
 
 class SenderRepository extends Repository
 {
     /**
-     * @param ORMInterface $orm
+     * @param Inheritance $inheritance
      * @param Select $select
      */
     public function __construct(
-        private ORMInterface $orm,
+        private Inheritance $inheritance,
         Select $select
     ) {
         parent::__construct($select);
     }
 
     /**
-     * @param int $id
+     * @param mixed $id
      * @return object|null
      */
-    public function findByPK($id): ?object
+    public function findByPK(mixed $id): ?object
     {
-        return parent::findByPK($id);
+        return $this->inheritance->inherit(parent::findByPK($id));
     }
 
     /**
@@ -46,7 +46,7 @@ class SenderRepository extends Repository
     public function getDataReader(array $scope = [], array $orderBy = []): DataReaderInterface
     {
         return new InheritanceDataReader(
-            $this->orm,
+            $this->inheritance,
             $this->select()->where($scope)->orderBy($orderBy)
         );
     }
