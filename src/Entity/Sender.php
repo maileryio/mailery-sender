@@ -8,7 +8,7 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Mailery\Brand\Entity\Brand;
-use Mailery\Sender\Model\Status;
+use Mailery\Sender\Enum\Status;
 use Mailery\Sender\Repository\SenderRepository;
 use Mailery\Activity\Log\Mapper\LoggableMapper;
 use Cycle\ORM\Entity\Behavior;
@@ -39,8 +39,8 @@ abstract class Sender
     #[Column(type: 'string(255)')]
     protected string $name;
 
-    #[Column(type: 'enum(pending, active, inactive)')]
-    protected string $status;
+    #[Column(type: 'enum(pending, active, inactive)', typecast: Status::class)]
+    protected Status $status;
 
     #[Column(type: 'string(255)')]
     protected string $type;
@@ -117,45 +117,21 @@ abstract class Sender
     }
 
     /**
-     * @return string
+     * @return Status
      */
-    public function getStatus(): string
+    public function getStatus(): Status
     {
         return $this->status;
     }
 
     /**
-     * @param string $status
+     * @param Status $status
      * @return self
      */
-    public function setStatus(string $status): self
+    public function setStatus(Status $status): self
     {
         $this->status = $status;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPending(): bool
-    {
-        return $this->getStatus() === Status::PENDING;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isActive(): bool
-    {
-        return $this->getStatus() === Status::ACTIVE;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInactive(): bool
-    {
-        return $this->getStatus() === Status::INACTIVE;
     }
 }

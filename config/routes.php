@@ -12,8 +12,5 @@ return [
             Route::get('/senders')
                 ->name('/sender/default/index')
                 ->action([DefaultController::class, 'index']),
-            Route::delete('/sender/default/delete/{id:\d+}')
-                ->name('/sender/default/delete')
-                ->action([DefaultController::class, 'delete'])
         )
 ];

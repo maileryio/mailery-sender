@@ -3,7 +3,7 @@
 use Mailery\Activity\Log\Widget\ActivityLogLink;
 use Mailery\Icon\Icon;
 use Mailery\Sender\Entity\Sender;
-use Mailery\Sender\Model\Status;
+use Mailery\Sender\Enum\Status;
 use Mailery\Widget\Dataview\Columns\ActionColumn;
 use Mailery\Widget\Dataview\Columns\DataColumn;
 use Mailery\Widget\Dataview\GridView;
@@ -90,18 +90,7 @@ $this->setTitle('All senders');
                 (new DataColumn())
                     ->header('Status')
                     ->content(function (Sender $data, int $index) {
-                        $status = Status::fromEntity($data);
-                        if ($data->isPending()) {
-                            $cssClass = 'badge-warning';
-                        } else if ($data->isActive()) {
-                            $cssClass = 'badge-success';
-                        } else if ($data->isInactive()) {
-                            $cssClass = 'badge-danger';
-                        } else {
-                            $cssClass = 'badge-secondary';
-                        }
-
-                        return '<span class="ml-2 badge ' . $cssClass . '">' . $status->getLabel() . '</span>';
+                        return '<span class="ml-2 badge ' . $data->getStatus()->getCssClass() . '">' . $data->getStatus()->getLabel() . '</span>';
                     }),
                 (new ActionColumn())
                     ->contentOptions([

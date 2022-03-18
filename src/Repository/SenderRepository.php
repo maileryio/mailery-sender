@@ -7,7 +7,7 @@ namespace Mailery\Sender\Repository;
 use Cycle\ORM\Select\Repository;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Filter\SenderFilter;
-use Mailery\Sender\Model\Status;
+use Mailery\Sender\Enum\Status;
 use Yiisoft\Data\Paginator\PaginatorInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;

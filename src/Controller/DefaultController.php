@@ -12,10 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Yiisoft\Yii\View\ViewRenderer;
 use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 use Mailery\Brand\BrandLocatorInterface;
-use Yiisoft\Router\UrlGeneratorInterface as UrlGenerator;
-use Mailery\Sender\Service\SenderCrudService;
 use Mailery\Sender\Model\SenderTypeList;
-use Yiisoft\Router\CurrentRoute;
 
 class DefaultController
 {
@@ -29,7 +26,6 @@ class DefaultController
      */
     public function __construct(
         private ViewRenderer $viewRenderer,
-        private ResponseFactory $responseFactory,
         private SenderRepository $senderRepo,
         BrandLocatorInterface $brandLocator
     ) {
@@ -67,25 +63,5 @@ class DefaultController
             ->withCurrentPage($pageNum);
 
         return $this->viewRenderer->render('index', compact('searchForm', 'paginator', 'senderTypeList'));
-    }
-
-    /**
-     * @param CurrentRoute $currentRoute
-     * @param SenderCrudService $senderCrudService
-     * @param UrlGenerator $urlGenerator
-     * @return Response
-     */
-    public function delete(CurrentRoute $currentRoute, SenderCrudService $senderCrudService, UrlGenerator $urlGenerator): Response
-    {
-        $senderId = $currentRoute->getArgument('id');
-        if (empty($senderId) || ($sender = $this->senderRepo->findByPK($senderId)) === null) {
-            return $this->responseFactory->createResponse(Status::NOT_FOUND);
-        }
-
-        $senderCrudService->delete($sender);
-
-        return $this->responseFactory
-            ->createResponse(Status::SEE_OTHER)
-            ->withHeader(Header::LOCATION, $urlGenerator->generate('/sender/default/index'));
     }
 }
