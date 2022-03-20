@@ -10,6 +10,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Repository\SenderRepository;
 use Mailery\Activity\Log\Mapper\LoggableMapper;
+use Mailery\Sender\Field\SenderStatus;
 use Cycle\ORM\Entity\Behavior;
 use Cycle\Annotated\Annotation\Inheritance\DiscriminatorColumn;
 
@@ -38,8 +39,8 @@ abstract class Sender
     #[Column(type: 'string(255)')]
     protected string $name;
 
-    #[Column(type: 'enum(pending, active, inactive)', typecast: Sender\Status::class)]
-    protected Sender\Status $status;
+    #[Column(type: 'enum(pending, active, inactive)', typecast: SenderStatus::class)]
+    protected SenderStatus $status;
 
     #[Column(type: 'string(255)')]
     protected string $type;
@@ -116,18 +117,18 @@ abstract class Sender
     }
 
     /**
-     * @return Sender\Status
+     * @return SenderStatus
      */
-    public function getStatus(): Sender\Status
+    public function getStatus(): SenderStatus
     {
         return $this->status;
     }
 
     /**
-     * @param Sender\Status $status
+     * @param SenderStatus $status
      * @return self
      */
-    public function setStatus(Sender\Status $status): self
+    public function setStatus(SenderStatus $status): self
     {
         $this->status = $status;
 

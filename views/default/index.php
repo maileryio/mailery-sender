@@ -3,7 +3,6 @@
 use Mailery\Activity\Log\Widget\ActivityLogLink;
 use Mailery\Icon\Icon;
 use Mailery\Sender\Entity\Sender;
-use Mailery\Sender\Enum\Status;
 use Mailery\Widget\Dataview\Columns\ActionColumn;
 use Mailery\Widget\Dataview\Columns\DataColumn;
 use Mailery\Widget\Dataview\GridView;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mailery\Sender\Entity\Sender;
+namespace Mailery\Sender\Field;
 
 use Yiisoft\Translator\TranslatorInterface;
 
-class Status
+class SenderStatus
 {
     private const PENDING = 'pending';
     private const ACTIVE = 'active';

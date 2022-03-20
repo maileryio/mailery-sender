@@ -7,7 +7,7 @@ namespace Mailery\Sender\Repository;
 use Cycle\ORM\Select\Repository;
 use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Filter\SenderFilter;
-use Mailery\Sender\Entity\Sender;
+use Mailery\Sender\Field\SenderStatus;
 use Yiisoft\Data\Paginator\PaginatorInterface;
 use Yiisoft\Data\Paginator\OffsetPaginator;
 use Yiisoft\Data\Reader\Sort;
@@ -86,15 +86,14 @@ class SenderRepository extends Repository
     }
 
     /**
-     * @param Sender\Status $status
      * @return self
      */
-    public function withStatus(Sender\Status $status): self
+    public function withActive(): self
     {
         $repo = clone $this;
         $repo->select
             ->andWhere([
-                'status' => $status->getValue(),
+                'status' => SenderStatus::asActive()->getValue(),
             ]);
 
         return $repo;
