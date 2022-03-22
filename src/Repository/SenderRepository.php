@@ -6,6 +6,7 @@ namespace Mailery\Sender\Repository;
 
 use Cycle\ORM\Select\Repository;
 use Mailery\Brand\Entity\Brand;
+use Mailery\Sender\Entity\Sender;
 use Mailery\Sender\Filter\SenderFilter;
 use Mailery\Sender\Field\SenderStatus;
 use Yiisoft\Data\Paginator\PaginatorInterface;
@@ -15,6 +16,7 @@ use Yiisoft\Data\Reader\DataReaderInterface;
 use Mailery\Cycle\Mapper\Data\Reader\Inheritance;
 use Mailery\Cycle\Mapper\Data\Reader\InheritanceDataReader;
 use Cycle\ORM\Select;
+use Cycle\ORM\Select\QueryBuilder;
 
 class SenderRepository extends Repository
 {
@@ -36,6 +38,26 @@ class SenderRepository extends Repository
     public function findByPK(mixed $id): ?object
     {
         return $this->inheritance->inherit(parent::findByPK($id));
+    }
+
+    /**
+     * @param string $attribute
+     * @param string $value
+     * @param Sender|null $exclude
+     * @return Sender|null
+     */
+    public function findByAttribute(string $attribute, string $value, ?Sender $exclude = null): ?Sender
+    {
+        return $this
+            ->select()
+            ->where(function (QueryBuilder $select) use ($attribute, $value, $exclude) {
+                $select->where($attribute, $value);
+
+                if ($exclude !== null) {
+                    $select->where('id', '<>', $exclude->getId());
+                }
+            })
+            ->fetchOne();
     }
 
     /**
