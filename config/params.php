@@ -24,6 +24,7 @@ return [
 
     'maileryio/mailery-sender' => [
         'types' => [],
+        'transports' => [],
     ],
 
     'maileryio/mailery-menu-sidebar' => [
