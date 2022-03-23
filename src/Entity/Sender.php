@@ -14,6 +14,9 @@ use Mailery\Sender\Field\SenderStatus;
 use Cycle\ORM\Entity\Behavior;
 use Cycle\Annotated\Annotation\Inheritance\DiscriminatorColumn;
 
+/**
+* This doc block required for STI/JTI
+*/
 #[Entity(
     table: 'senders',
     repository: SenderRepository::class,
