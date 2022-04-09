@@ -20,7 +20,7 @@ use Cycle\Annotated\Annotation\Inheritance\DiscriminatorColumn;
 #[Entity(
     table: 'senders',
     repository: SenderRepository::class,
-    mapper: LoggableMapper::class
+    mapper: LoggableMapper::class,
 )]
 #[Behavior\CreatedAt(
     field: 'createdAt',
