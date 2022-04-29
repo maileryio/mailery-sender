@@ -2,8 +2,16 @@
 
 namespace Mailery\Sender\Model;
 
+use Mailery\Sender\Entity\Sender;
+use Mailery\Channel\Model\ChannelTypeInterface as ChannelType;
+
 interface SenderTypeInterface
 {
+    /**
+     * @return string
+     */
+    public function getName(): string;
+
     /**
      * @return string
      */
@@ -25,8 +33,19 @@ interface SenderTypeInterface
     public function getCreateRouteParams(): array;
 
     /**
-     * @param object $entity
+     * @return ChannelType[]
+     */
+    public function getAvailChannelTypes(): array;
+
+    /**
+     * @param Sender $entity
      * @return bool
      */
-    public function isEntitySameType(object $entity): bool;
+    public function isEntitySameType(Sender $entity): bool;
+
+    /**
+     * @param ChannelType $channelType
+     * @return bool
+     */
+    public function canUseChannelType(ChannelType $channelType): bool;
 }

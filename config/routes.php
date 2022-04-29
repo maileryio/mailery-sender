@@ -12,5 +12,8 @@ return [
             Route::get('/senders')
                 ->name('/sender/default/index')
                 ->action([DefaultController::class, 'index']),
+            Route::methods(['GET', 'POST'], '/sender/default/create')
+                ->name('/sender/default/create')
+                ->action([DefaultController::class, 'create']),
         )
 ];

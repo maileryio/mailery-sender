@@ -38,21 +38,10 @@ $this->setTitle('All senders');
                                     ->label('Activity log')
                                     ->group('sender'); ?>
                             </b-dropdown>
-                            <b-dropdown right size="sm" variant="primary" class="mx-sm-1 mb-2">
-                                <template v-slot:button-content>
-                                    <?= Icon::widget()->name('plus')->options(['class' => 'mr-1']); ?>
-                                    Add new sender
-                                </template>
-                                <?php foreach ($senderTypeList as $senderType) {
-                                    echo Html::tag(
-                                        'b-dropdown-item',
-                                        $senderType->getCreateLabel(),
-                                        [
-                                            'href' => $url->generate($senderType->getCreateRouteName(), $senderType->getCreateRouteParams()),
-                                        ]
-                                    );
-                                } ?>
-                            </b-dropdown>
+                            <a class="btn btn-sm btn-primary mx-sm-1 mb-2" href="<?= $url->generate('/sender/default/create'); ?>">
+                                <?= Icon::widget()->name('plus')->options(['class' => 'mr-1']); ?>
+                                Add new sender
+                            </a>
                         </div>
                     </div>
                 </div>

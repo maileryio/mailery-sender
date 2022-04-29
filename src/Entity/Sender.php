@@ -11,6 +11,7 @@ use Mailery\Brand\Entity\Brand;
 use Mailery\Sender\Repository\SenderRepository;
 use Mailery\Activity\Log\Mapper\LoggableMapper;
 use Mailery\Sender\Field\SenderStatus;
+use Mailery\Channel\Entity\Channel;
 use Cycle\ORM\Entity\Behavior;
 use Cycle\Annotated\Annotation\Inheritance\DiscriminatorColumn;
 
@@ -39,8 +40,14 @@ abstract class Sender
     #[BelongsTo(target: Brand::class)]
     protected Brand $brand;
 
+    #[BelongsTo(target: Channel::class, load: 'eager')]
+    protected Channel $channel;
+
     #[Column(type: 'string(255)')]
     protected string $name;
+
+    #[Column(type: 'text', nullable: true)]
+    protected ?string $description = null;
 
     #[Column(type: 'enum(pending, active, inactive)', typecast: SenderStatus::class)]
     protected SenderStatus $status;
@@ -71,14 +78,11 @@ abstract class Sender
     }
 
     /**
-     * @param int $id
-     * @return self
+     * @return string
      */
-    public function setId(int $id): self
+    public function getType(): string
     {
-        $this->id = $id;
-
-        return $this;
+        return $this->type;
     }
 
     /**
@@ -101,6 +105,25 @@ abstract class Sender
     }
 
     /**
+     * @return Channel
+     */
+    public function getChannel(): Channel
+    {
+        return $this->channel;
+    }
+
+    /**
+     * @param Channel $channel
+     * @return self
+     */
+    public function setChannel(Channel $channel): self
+    {
+        $this->channel = $channel;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -115,6 +138,25 @@ abstract class Sender
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return self
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
