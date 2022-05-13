@@ -3,7 +3,7 @@
 use Yiisoft\Form\Widget\Form;
 use Mailery\Widget\Select\Select;
 
-/** @var \Mailery\Sender\Form\SenderForm $form */
+/** @var Mailery\Sender\Form\SenderForm $form */
 /** @var Yiisoft\Form\Widget\Field $field */
 /** @var Yiisoft\Yii\WebView $this */
 /** @var Yiisoft\Yii\View\Csrf $csrf */

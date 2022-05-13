@@ -78,6 +78,17 @@ abstract class Sender
     }
 
     /**
+     * @param int $id
+     * @return self
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getType(): string
@@ -178,5 +189,13 @@ abstract class Sender
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getUpdatedAt(): \DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }
