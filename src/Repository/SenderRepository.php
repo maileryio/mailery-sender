@@ -95,4 +95,19 @@ class SenderRepository extends Repository
 
         return $repo;
     }
+
+    /**
+     * @param Sender $sender
+     * @return self
+     */
+    public function withSameType(Sender $sender): self
+    {
+        $repo = clone $this;
+        $repo->select
+            ->andWhere([
+                'type' => $sender->getType(),
+            ]);
+
+        return $repo;
+    }
 }
