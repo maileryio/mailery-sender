@@ -84,7 +84,7 @@ $this->setTitle('All senders');
                         [
                             'label()' => ['Status'],
                             'value()' => [static function (Sender $model) {
-                                return '<span class="ml-2 badge ' . $model->getStatus()->getCssClass() . '">' . $model->getStatus()->getLabel() . '</span>';
+                                return '<span class="badge ' . $model->getStatus()->getCssClass() . '">' . $model->getStatus()->getLabel() . '</span>';
                             }],
                         ],
                         [
