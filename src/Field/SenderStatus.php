@@ -21,7 +21,7 @@ class SenderStatus
     private function __construct(
         private string $value
     ) {
-        if (!in_array($value, self::getKeys())) {
+        if (!in_array($value, $this->getValues())) {
             throw new \InvalidArgumentException('Invalid passed value: ' . $value);
         }
     }
@@ -32,18 +32,6 @@ class SenderStatus
     public function __toString(): string
     {
         return $this->value;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getKeys(): array
-    {
-        return [
-            self::PENDING,
-            self::ACTIVE,
-            self::INACTIVE,
-        ];
     }
 
     /**
@@ -97,6 +85,18 @@ class SenderStatus
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return [
+            self::PENDING,
+            self::ACTIVE,
+            self::INACTIVE,
+        ];
     }
 
     /**
