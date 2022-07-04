@@ -82,6 +82,10 @@ $this->setTitle('All senders');
                             }],
                         ],
                         [
+                            'label()' => ['Channel'],
+                            'value()' => [fn (Sender $model) => Html::a($model->getChannel()->getName(), $url->generate($model->getChannel()->getViewRouteName(), $model->getChannel()->getViewRouteParams()))],
+                        ],
+                        [
                             'label()' => ['Status'],
                             'value()' => [static function (Sender $model) {
                                 return '<span class="badge ' . $model->getStatus()->getCssClass() . '">' . $model->getStatus()->getLabel() . '</span>';
@@ -109,6 +113,12 @@ $this->setTitle('All senders');
                                     ->method('delete')
                                     ->href($url->generate($model->getDeleteRouteName(), $model->getDeleteRouteParams()))
                                     ->confirm('Are you sure?')
+                                    ->afterRequest(<<<JS
+                                        (res) => {
+                                            res.redirected && res.url && (window.location.href = res.url);
+                                        }
+                                        JS
+                                    )
                                     ->options([
                                         'class' => 'text-decoration-none text-danger',
                                     ])
