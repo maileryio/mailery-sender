@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Mailery\Sender\Service;
 
-use Cycle\ORM\ORMInterface;
-use Cycle\ORM\Transaction;
+use Cycle\ORM\EntityManagerInterface;
 use Mailery\Sender\Entity\Sender;
+use Yiisoft\Yii\Cycle\Data\Writer\EntityWriter;
 
 class SenderCrudService
 {
     /**
-     * @param ORMInterface $orm
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        private ORMInterface $orm
+        private EntityManagerInterface $entityManager
     ) {}
 
     /**
@@ -23,9 +23,7 @@ class SenderCrudService
      */
     public function delete(Sender $sender): bool
     {
-        $tr = new Transaction($this->orm);
-        $tr->delete($sender);
-        $tr->run();
+        (new EntityWriter($this->entityManager))->delete($sender);
 
         return true;
     }
