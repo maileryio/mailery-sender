@@ -7,6 +7,7 @@ use Mailery\Widget\Link\Link;
 use Mailery\Widget\Search\Widget\SearchWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\DataView\GridView;
+use Mailery\Web\Vue\Directive;
 
 /** @var Yiisoft\Yii\WebView $this */
 /** @var Mailery\Widget\Search\Form\SearchForm $searchForm */
@@ -72,23 +73,23 @@ $this->setTitle('All senders');
                     ->columns([
                         [
                             'label()' => ['Name'],
-                            'value()' => [fn (Sender $model) => Html::a($model->getName(), $url->generate($model->getViewRouteName(), $model->getViewRouteParams()))],
+                            'value()' => [fn (Sender $model) => Html::a(Directive::pre($model->getName()), $url->generate($model->getViewRouteName(), $model->getViewRouteParams()))],
                         ],
                         [
                             'label()' => ['Type'],
                             'value()' => [static function (Sender $model) use ($senderTypeList) {
                                 $senderType = $senderTypeList->findByEntity($model);
-                                return $senderType ? $senderType->getLabel() : null;
+                                return $senderType ? Directive::pre($senderType->getLabel()) : null;
                             }],
                         ],
                         [
                             'label()' => ['Channel'],
-                            'value()' => [fn (Sender $model) => Html::a($model->getChannel()->getName(), $url->generate($model->getChannel()->getViewRouteName(), $model->getChannel()->getViewRouteParams()))],
+                            'value()' => [fn (Sender $model) => Html::a(Directive::pre($model->getChannel()->getName()), $url->generate($model->getChannel()->getViewRouteName(), $model->getChannel()->getViewRouteParams()))],
                         ],
                         [
                             'label()' => ['Status'],
                             'value()' => [static function (Sender $model) {
-                                return '<span class="badge ' . $model->getStatus()->getCssClass() . '">' . $model->getStatus()->getLabel() . '</span>';
+                                return '<span class="badge ' . $model->getStatus()->getCssClass() . '">' . Directive::pre($model->getStatus()->getLabel()) . '</span>';
                             }],
                         ],
                         [

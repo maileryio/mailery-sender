@@ -10,23 +10,23 @@ use Yiisoft\Form\Field;
 
 ?>
 <?= Form::tag()
-        ->csrf($csrf)
-        ->id('sender-form')
-        ->post()
-        ->open(); ?>
+    ->csrf($csrf)
+    ->id('sender-form')
+    ->post()
+    ->open(); ?>
 
 <?= Field::input(
-        Select::class,
-        $form,
-        'channel',
-        [
-            'optionsData()' => [$form->getChannelListOptions()],
-            'searchable()' => [false],
-            'clearable()' => [false],
-        ]
-    ); ?>
+    Select::class,
+    $form,
+    'channel',
+    [
+        'optionsData()' => [$form->getChannelListOptions()],
+        'searchable()' => [false],
+        'clearable()' => [false],
+    ]
+); ?>
 
 <?= Field::submitButton()
-        ->content('Next'); ?>
+    ->content('Next'); ?>
 
 <?= Form::tag()->close(); ?>
